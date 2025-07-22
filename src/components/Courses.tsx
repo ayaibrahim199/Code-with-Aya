@@ -1,24 +1,30 @@
 
-import React, { useState } from "react";
+
+import { useState } from "react";
+
+type Course = {
+  name: string;
+  description: string;
+  image: string;
+};
 
 const Courses = () => {
-  const courses = [
-    { name: "React", image: "/assets/re.png", description: "Learn how to build modern web apps with React and its ecosystem." },
-    { name: "JavaScript", image: "/assets/javas.jpeg", description: "Master the language of the web with JavaScript." },
-    { name: "HTML & CSS", image: "/assets/HT.jpg", description: "Understand web structure and design using HTML and CSS." },
-    { name: "Python", image: "/assets/PY.jpeg", description: "A beginner-friendly language for data, web, and automation." },
-    { name: "C++", image: "/assets/c++.jpeg", description: "Learn C++ for system programming and game development." },
-    { name: "C#", image: "/assets/cs.jpeg", description: "C# for building apps, games, and enterprise software." },
-    { name: "Java", image: "/assets/java.jpeg", description: "Master Java for backend development and Android apps." },
-    { name: "Scratch", image: "/assets/s.jpeg", description: "A fun, visual language to start coding, great for kids." },
-    { name: "SQL", image: "/assets/sql.jpeg", description: "Learn to query and manage databases using SQL." },
+  const courses: Course[] = [
+    { name: "React", image: "/assets/re.png", description: "Learn React basics and hooks." },
+    { name: "JavaScript", image: "/assets/javas.jpeg", description: "Master ES6 and DOM manipulation." },
+    { name: "HTML & CSS", image: "/assets/HT.jpg", description: "Build beautiful static websites." },
+    { name: "Python", image: "/assets/PY.jpeg", description: "Beginner-friendly Python programming." },
+    { name: "C++", image: "/assets/c++.jpeg", description: "Understand C++ OOP and algorithms." },
+    { name: "C#", image: "/assets/cs.jpeg", description: "C# fundamentals and .NET basics." },
+    { name: "Java", image: "/assets/java.jpeg", description: "Java OOP and backend essentials." },
+    { name: "Scratch", image: "/assets/s.jpeg", description: "Visual programming for kids." },
+    { name: "SQL", image: "/assets/sql.jpeg", description: "Databases and SQL queries." },
   ];
 
-  const [selectedCourse, setSelectedCourse] = useState<null | { name: string; description: string; image: string }>(null);
+  const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
 
   return (
-    <div className="relative">
-      {/* Course Cards */}
+    <>
       <div className="courses-container grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 p-6">
         {courses.map((course, index) => (
           <div
@@ -36,27 +42,33 @@ const Courses = () => {
         ))}
       </div>
 
-      {/* Modal */}
+      {/* Modal for selected course */}
       {selectedCourse && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-xl p-6 max-w-lg w-full relative">
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+          onClick={() => setSelectedCourse(null)}
+        >
+          <div
+            className="bg-white rounded-lg p-6 max-w-md w-full relative"
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside modal
+          >
             <button
+              className="absolute top-2 right-2 text-gray-700 hover:text-black text-xl font-bold"
               onClick={() => setSelectedCourse(null)}
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-800 text-xl font-bold"
             >
-              ✖
+              &times;
             </button>
             <img
               src={selectedCourse.image}
               alt={selectedCourse.name}
-              className="w-full h-48 object-cover rounded-md mb-4"
+              className="w-full h-48 object-cover rounded-md"
             />
-            <h2 className="text-2xl font-bold mb-2">{selectedCourse.name}</h2>
-            <p className="text-gray-700">{selectedCourse.description}</p>
+            <h2 className="text-2xl font-bold mt-4">{selectedCourse.name}</h2>
+            <p className="mt-2 text-gray-700">{selectedCourse.description}</p>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
